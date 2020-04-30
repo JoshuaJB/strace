@@ -219,8 +219,11 @@ check_PROGRAMS = $(PURE_EXECUTABLES) \
 	vfork-f \
 	wait4-v \
 	waitid-v \
-	zeroargc \
-	# end of check_PROGRAMS
+	zeroargc
+if ENABLE_GDBSERVER
+check_PROGRAMS += gdbrsp
+endif	# end of check_PROGRAMS
+
 
 attach_f_p_LDADD = -lpthread $(LDADD)
 count_f_LDADD = -lpthread $(LDADD)
@@ -355,8 +358,10 @@ DECODER_TESTS = \
 	uname.test \
 	unix-pair-send-recv.test \
 	unix-pair-sendto-recvfrom.test \
-	xet_thread_area_x86.test \
-	# end of DECODER_TESTS
+	xet_thread_area_x86.test
+if ENABLE_GDBSERVER
+DECODER_TESTS += gdbrsp.test
+endif   # end of DECODER_TESTS
 
 MISC_TESTS = \
 	attach-f-p.test \
