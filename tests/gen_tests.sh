@@ -79,7 +79,7 @@ while read -r name arg0 args; do {
 	esac > "$output"
 	
 	set +u
-	if [ no-${comment:0:3} != "no-gdb" ]; then
+	if [ no-${comment%"${comment#???}"} != "no-gdb" ]; then
 	    if [ -z "$arg0" ] ; then
 		names="$names $name-gdb"
 		cat <<-EOF  > "$outputgdb"
@@ -88,7 +88,7 @@ while read -r name arg0 args; do {
 		run_strace_gdbserver_match_diff $arg0 $args
 		EOF
 		chmod a+x "$outputgdb"
-	    elif [[ "$arg0" =~ '-' ]] ; then
+	    elif [ -z "${string##*-*}" ]; then
 		names="$names $name-gdb"
 		cat <<-EOF  > "$outputgdb"
 		$hdr
